@@ -1,16 +1,29 @@
 import java.util.ArrayList;
 
 class Deck {
-  ArrayList<String> deck = new ArrayList<String>();
-  public Deck() {
-    String[] ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
-    String[] suits = ["♤", "♥", "♢", "♧"];
-  }
 
-  public void ge
+    public static void main(String[] args) {
+        generateDeck();
+    }
+    ArrayList<String> deck = new ArrayList<String>();
+  
+    public Deck() {
+        String[] ranks = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
+        String[] suits = {"♤", "♥", "♢", "♧"};
 
-  public void shuffle() {
-  }
+    }
 
-  public 
+    public static ArrayList<String> generateDeck() {
+        ArrayList<String> d = new ArrayList<String>();
+        for (String r : ranks) {
+            for (String s : suits) {
+                d.add(s + r);
+            }
+        }
+        System.out.println(d);
+        return d;
+    }
+
+    public void shuffle() {
+    }
 }
