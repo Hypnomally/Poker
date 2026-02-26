@@ -17,7 +17,7 @@ class Deck {
         ArrayList<String> d = new ArrayList<String>();
         for (String r : ranks) {
             for (String s : suits) {
-                d.add(s + r);
+                d.add(r + s);
             }
         }
         System.out.println(d);
