@@ -1,9 +1,15 @@
+import java.util.Random;
+
 class Card {
     public int rank;
-    public 
+    public int suit;
+    
+    
     
     public Card() {
-
+        Random random = new Random();
+        rank = random.nextInt(1,14);
+        suit = random.nextInt(1,5);
     }
     public static void main(String[] args) {
         
