@@ -1,7 +1,7 @@
 package Poker;
 import java.util.Random;
 
-class Card{
+class Card extends Deck {
     public int rank;
     public int suit;
     
