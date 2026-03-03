@@ -5,7 +5,7 @@ import java.util.Random;
 class Deck {
 
     ArrayList<String> deck = new ArrayList<String>();
-    public static String[] ranks = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
+    public static String[] ranks = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
     public static String[] suits = {"♤", "♥", "♢", "♧"};
   
     public Deck() {
@@ -38,6 +38,12 @@ class Deck {
             this.deck.remove(a);
         }
         this.deck = e;
+    }
+
+    public void draw() {
+        String c = this.deck.get(0);
+        this.deck.remove(c);
+        return Card(c);
     }
 
     // public void dealCards(){

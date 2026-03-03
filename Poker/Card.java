@@ -7,10 +7,8 @@ class Card extends Deck {
     
     
     
-    public Card(Deck deck) {
-        Random random = new Random();
-        rank = random.nextInt(1,14);
-        suit = random.nextInt(1,5);
+    public Card() {
+        
     }
     public static void main(String[] args) {
         
