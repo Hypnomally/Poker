@@ -1,16 +1,10 @@
 package Poker;
-import java.util.Random;
 
-class Card {
+class Card() {
     public int rank;
     public int suit;
     
-    public Card() {
-        
+    public Card(String s) {
+        s.split(":");
     }
-    public static void main(String[] args) {
-        
-    }
-
-    public int 
 }
