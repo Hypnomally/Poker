@@ -2,15 +2,15 @@
 import java.util.Random;
 
 class Card {
-    public int rank;
-    public int suit;
+    private int rankNum;
+    private int suitNum;
     
     public Card(String s) {
-        rank = s.convertRank(s.split(":")[0]);
-        suit = s.convertSuit(s.split(":")[1]);
+        rankNum = convertRank(s.split(":")[0]);
+        suitNum = convertSuit(s.split(":")[1]);
     }
 
-    public int convertSuit(String s){
+    public static int convertSuit(String s){
         if ( s.equals("♠") ){ return 1;}
         if ( s.equals("♥") ){ return 2;}
         if ( s.equals("♦") ){ return 3;}
@@ -18,11 +18,12 @@ class Card {
     }
 
     public int convertRank(String s){
-        for (int i = 0; i < deck.size() - 1; i++ ){
-            if (s + ":" == d.getRank(i)){
+        for (int i = 0; i < Deck.rankSize() - 1; i++ ){
+            if (s + ":" == Deck.rankGet(i)){
                 return i + 2;
             }
         }
+        return 100;
     }
 
 }

@@ -13,11 +13,11 @@ class Deck {
         deck = generateDeck();
     }
 
-    public String rankSize(){
+    public static int rankSize(){
         return ranks.length;
     }
 
-    public String rankGet(int i){
+    public static String rankGet(int i){
         return ranks[i];
     }
 
