@@ -1,11 +1,11 @@
 public class Poker_Game {
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         generateDeck();
         dealCards();
     }
 
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         Player player1 = new Player("Alice", 1000);
         Player player2 = new Player("Bob", 1000);
         Deck deck = new Deck();

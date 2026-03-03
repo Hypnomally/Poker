@@ -1,4 +1,4 @@
-package Poker;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -13,10 +13,21 @@ class Deck {
         deck = generateDeck();
     }
 
+    public String rankSize(){
+        return ranks.length;
+    }
+
+    public String rankGet(int i){
+        return ranks[i];
+    }
+
     public static void main(String[] args) {
-        Deck test = new Deck();
-        test.shuffle();
-        System.out.println(test.deck);
+        //Deck test = new Deck();
+        //test.shuffle();
+        //System.out.println(test.deck);
+        System.out.println("Standard Text: Spades");
+        System.out.println("Unicode Test: \u2660 \u2665 \u2666 \u2663");
+        
     }
 
     public static ArrayList<String> generateDeck() {
