@@ -21,15 +21,6 @@ class Deck {
         return ranks[i];
     }
 
-    public static void main(String[] args) {
-        //Deck test = new Deck();
-        //test.shuffle();
-        //System.out.println(test.deck);
-        System.out.println("Standard Text: Spades");
-        System.out.println("Unicode Test: \u2660 \u2665 \u2666 \u2663");
-        
-    }
-
     public static ArrayList<String> generateDeck() {
         ArrayList<String> d = new ArrayList<String>();
         for (String r : ranks) {
