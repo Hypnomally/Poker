@@ -1,7 +1,9 @@
+import java.util.ArrayList;
+
 public class Player{
-    public String name;
-    public int chips;
-    public Card[] hand = new Card[2];
+    private String name;
+    private int chips;
+    private ArrayList<Card> hand  = new ArrayList<>();
     public boolean isFolded = false;
 
     public Player(String name, int chips) {

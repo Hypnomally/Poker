@@ -19,11 +19,11 @@ class Card {
 
     public int convertRank(String s){
         for (int i = 0; i < Deck.rankSize() - 1; i++ ){
-            if (s + ":" == Deck.rankGet(i)){
+            if ((s + ":").equals(Deck.rankGet(i))){
                 return i + 2;
             }
         }
-        return 100;
+        return -1;
     }
 
 }

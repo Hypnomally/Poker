@@ -1,6 +1,7 @@
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Stack;
 
 
 class Deck {
@@ -43,11 +44,18 @@ class Deck {
         this.deck = e;
     }
 
-    // public void draw() {
-    //     String c = this.deck.get(0);
-    //     this.deck.remove(c);
-    //     return Card(c);
-    // }
+    public Stack<Card> getDeckStack() {
+        Stack<Card> deckStack = new Stack<>();
+        for (String s : this.deck) {
+            deckStack.push(new Card(s));
+        }
+        return deckStack;
+    }
+
+    public Card draw() {
+         String c = this.deck.remove(0);
+         return new Card(c);
+    }
 
     // public void dealCards(){
     //     for (int i = 0; i < 2; i++) {
