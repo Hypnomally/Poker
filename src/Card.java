@@ -1,5 +1,3 @@
-
-
 class Card {
     private int rankNum;
     private int suitNum;
@@ -17,7 +15,7 @@ class Card {
     }
 
     public int convertRank(String s){ //converts the ranks into ints using it's index in the deck array
-        for (int i = 0; i < Deck.rankSize() - 1; i++ ){ //therefore we have to convert Ranks and suits before turning the deck into a Stack
+        for (int i = 0; i < Deck.rankSize(); i++ ){ //therefore we have to convert Ranks and suits before turning the deck into a Stack
             if ((s + ":").equals(Deck.rankGet(i))){
                 return i + 2;
             }
@@ -25,4 +23,11 @@ class Card {
         return -1;
     }
 
+    public int getRankNum(){ //return rankNum
+        return rankNum;
+    }
+
+    public int getSuitNum(){ //return suitNum
+        return suitNum;
+    }
 }

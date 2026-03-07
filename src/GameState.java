@@ -8,6 +8,7 @@ public class GameState {
     private Stack<Card> deck;
     private int currentPlayer; //1 player 1, 2 player 2, etc.
     private int stage; // 0 preflop, 1 flop, 2 turn, 3 river
+    private int pot;
     
     public GameState(ArrayList<Player> p, Table t, Stack<Card> d, int cp, int s) { //game state constructor
         this.players = p;
@@ -17,30 +18,27 @@ public class GameState {
         this.stage = s;
     }
 
-    public void applyMove(String move, int raiseAmount){
+    public void applyMove(String move, int raiseAmount){ //apply's different moves
         Player p = players.get(currentPlayer);
-        if (move.equals("Fold") || move.equals("fold")) {
+        if (move.equals("Fold") || move.equals("fold")){
             p.fold();
-        }
-        else if (move.equals("Call") || move.equals("call")) {
-            p.bet(20);
-        }
-        else if (move.equals("Raise") || move.equals("raise")) {
+        } else if (move.equals("Call") || move.equals("call")){
+            int callAmount = 20;
+            p.bet(callAmount);
+            table.addPot(callAmount);
+        } else if (move.equals("Raise") || move.equals("raise")){
             p.bet(raiseAmount);
+            table.addPot(raiseAmount);
         }
         nextPlayer();
     }
 
-    public GameState CloneState() {
-        ArrayList<Player> newPlayers = new ArrayList<>();
-        for (Player p : players){
+    public GameState CloneState() { // clone state for the trees
+        ArrayList<Player> newPlayers = new ArrayList<>(); //new array of copy players
+        for (Player p : players){ //initiating the copied players and adding then to the new player array
             Player copy = new Player(p.getName(), p.getChips());
-            for (Card c: p.gethand()) {
-                copy.gethand().add(c);
-            }
-            if (p.isFolded) {
-                copy.fold();
-            }
+            for (Card c: p.gethand()) { copy.gethand().add(c); }
+            if (p.isFolded) { copy.fold(); }
             newPlayers.add(copy);
         }
         
@@ -49,6 +47,11 @@ public class GameState {
 
         return new GameState(newPlayers, table.cloneTable(), newDeck, currentPlayer, stage);
         //returns cloned gamestate with cloned elements
+    }
+
+    public void addPot(int amount) {
+        this.pot += amount; 
+        System.out.println("The pot has increased by $" + amount + ". Total Pot: $" + this.pot);
     }
     
     public ArrayList<Player> getPlayers() {
