@@ -77,11 +77,14 @@ public class GameState {
 
     public void addPot(int amount) {
         this.pot += amount;
-        System.out.println("The pot has increased by $" + amount + ". Total Pot: $" + this.pot);
     }
 
     public ArrayList<Player> getPlayers() {
         return players;
+    }
+
+    public int getPot(){
+        return this.pot;
     }
 
     public Table getTable() {

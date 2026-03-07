@@ -34,7 +34,7 @@ public class Poker_Game {
                 break;
             }
 
-            System.out.print("Play another round? (y/n: ");
+            System.out.print("Play another round? (y/n): ");
             String choice = input.nextLine();
             if (choice.equalsIgnoreCase("n")) {
                 keepPlaying = false;
@@ -48,7 +48,6 @@ public class Poker_Game {
     private void prepareNextRound() {
         this.deck = new Deck();
         this.deck.shuffle();
-
 
         for (Player p : players) {
             p.clearHand();
@@ -79,6 +78,10 @@ public class Poker_Game {
         }
 
         handleBetting("Pre-Flop", input, bot);
+        if (players.get(0).isFolded || players.get(1).isFolded) {
+            determineWinner();
+            return; // Stop the round here!
+        }
 
         // flop 1, 3 cards
         table.dealFlop(gameDeck);
@@ -105,6 +108,7 @@ public class Poker_Game {
         System.out.print("Your cards (fold/call/raise): ");
         String userMove = input.nextLine();
         state.applyMove(userMove, 50);
+        System.out.println("Total Pot: $" + state.getPot());
 
         // bot turn
         if (!players.get(0).isFolded) {
