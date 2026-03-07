@@ -69,6 +69,7 @@ public class Poker_Game {
 
         table.addPot(30); // Add the $30 to the table pot
         // Also update the state's internal pot
+        state.addPot(30);
         state.setHighestBet(20);
 
         // Deal 2 cards to all of the players
