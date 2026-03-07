@@ -9,13 +9,13 @@ class Card {
     }
 
     public static int convertSuit(String s) { // converts the suits into ints
-        if (s.equals("♠")) {
+        if (s.equals("S")) {
             return 1;
         }
-        if (s.equals("♥")) {
+        if (s.equals("H")) {
             return 2;
         }
-        if (s.equals("♦")) {
+        if (s.equals("D")) {
             return 3;
         } else {
             return 4;

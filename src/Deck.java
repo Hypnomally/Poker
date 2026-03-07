@@ -8,7 +8,7 @@ class Deck { // creating deck class
     ArrayList<String> deck = new ArrayList<String>(); // creating an array for the deck with strings to be converted to
                                                       // cards
     public static String[] ranks = { "2:", "3:", "4:", "5:", "6:", "7:", "8:", "9:", "10:", "J:", "Q:", "K:", "A:" };
-    public static String[] suits = { "♠", "♥", "♦", "♣" };
+    public static String[] suits = { "S", "H", "D", "C" };
 
     public Deck() { // constructor
         deck = generateDeck();
