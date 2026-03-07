@@ -32,9 +32,8 @@ public class HandStrength {
             if (c.getRankNum() > highCard){
                 highCard = c.getRankNum();
             }
-            score += highCard;
         }
-
+        score += highCard;
         return score;
     }
 

@@ -10,12 +10,13 @@ public class GameState {
     private int stage; // 0 preflop, 1 flop, 2 turn, 3 river
     private int pot;
     
-    public GameState(ArrayList<Player> p, Table t, Stack<Card> d, int cp, int s) { //game state constructor
+    public GameState(ArrayList<Player> p, Table t, Stack<Card> d, int cp, int s, int pt) { //game state constructor
         this.players = p;
         this.table = t;
         this.deck = d;
         this.currentPlayer = cp;
         this.stage = s;
+        this.pot = pt;
     }
 
     public void applyMove(String move, int raiseAmount){ //apply's different moves
@@ -45,7 +46,7 @@ public class GameState {
         Stack<Card> newDeck = new Stack<>(); //creating a new clone deck
         newDeck.addAll(this.deck);
 
-        return new GameState(newPlayers, table.cloneTable(), newDeck, currentPlayer, stage);
+        return new GameState(newPlayers, table.cloneTable(), newDeck, currentPlayer, stage, pot);
         //returns cloned gamestate with cloned elements
     }
 

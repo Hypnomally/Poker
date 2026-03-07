@@ -35,6 +35,11 @@ public class Player{
         currentBet = 0;
     }
 
+    public void winPot(int amount) {
+        this.chips += amount;
+        System.out.println(this.name + "won $" + amount + "!");
+    }
+
     //get methods
     public ArrayList<Card> gethand() { return hand;} 
     public int getChips() { return chips;}
