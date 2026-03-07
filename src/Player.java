@@ -46,7 +46,7 @@ public class Player {
 
     public void winPot(int amount) {
         this.chips += amount;
-        System.out.println(this.name + "won $" + amount + "!");
+        System.out.println(this.name + " won $" + amount + "!");
     }
 
     // get methods

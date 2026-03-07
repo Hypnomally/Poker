@@ -49,6 +49,7 @@ public class Poker_Game {
         this.deck = new Deck();
         this.deck.shuffle();
 
+
         for (Player p : players) {
             p.clearHand();
         }
@@ -69,7 +70,7 @@ public class Poker_Game {
 
         table.addPot(30); // Add the $30 to the table pot
         // Also update the state's internal pot
-        state.addPot(30);
+        state.setHighestBet(20);
 
         // Deal 2 cards to all of the players
         for (Player p : players) {

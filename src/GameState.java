@@ -62,13 +62,16 @@ public class GameState {
             if (p.isFolded) {
                 copy.fold();
             }
+            copy.bet(p.getCurrentBet());
             newPlayers.add(copy);
         }
 
         Stack<Card> newDeck = new Stack<>(); // creating a new clone deck
         newDeck.addAll(this.deck);
 
-        return new GameState(newPlayers, table.cloneTable(), newDeck, currentPlayer, stage, pot);
+        GameState cloned = new GameState(newPlayers, table.cloneTable(), newDeck, currentPlayer, stage, pot);
+        cloned.setHighestBet(this.highestBetInRound);
+        return cloned;
         // returns cloned gamestate with cloned elements
     }
 
@@ -99,5 +102,9 @@ public class GameState {
 
     public void nextPlayer() {
         currentPlayer = (currentPlayer + 1) % players.size();
+    }
+
+    public void setHighestBet(int amount) {
+        this.highestBetInRound = amount;
     }
 }
