@@ -10,18 +10,35 @@ public class HandStrength {
         for (Card c : tableCards) if (c != null) all.add(c);
 
         int score = 0;
+        // checking flush potential
+        int suitCount = getMaxSuitCount(all);
+        if (suitCount >= 5){
+            score += WEIGHT_FLUSH;
+        } else if (suitCount == 4) {
+            score += 150; //flush draw potential
+        }
+        // checking  straight potentials
+        int straightCount = getMaxStraightCount(all);
+        if (straightCount >=5){
+            score += WEIGHT_STRAIGHT;
+        } else if (straightCount == 4){
+            score += 100;
+        }
 
-        if (isFlush(all)) score += WEIGHT_FLUSH;
-        if (isStraight(all)) score += WEIGHT_STRAIGHT;
-        score += (countPairs(all) * WEIGHT_PAIR);
+        score += countPairs(all);
 
-        all.sort((a,b) -> b.getRankNum() - a.getRankNum());
-        if (!all.isEmpty()) score += all.get(0).getRankNum();
+        int highCard = 0;
+        for (Card c : all) {
+            if (c.getRankNum() > highCard){
+                highCard = c.getRankNum();
+            }
+            score += highCard;
+        }
 
         return score;
     }
 
-    private int isFlush(ArrayList<Card> cards){
+    private int getMaxSuitCount(ArrayList<Card> cards){
         int[] suitCounts = new int[5]; //the indexes 1-4 represent the suits
         int max = 0;
         for (Card c : cards) { //iterate through cards
@@ -39,7 +56,7 @@ public class HandStrength {
         return max;
     }
 
-    private int isStraight(ArrayList<Card> cards){
+    private int getMaxStraightCount(ArrayList<Card> cards){
         int[] rankPresent = new int[15];
         for (Card c: cards) {
            rankPresent[c.getRankNum()] = 1;
@@ -64,7 +81,24 @@ public class HandStrength {
     }
 
     private int countPairs(ArrayList<Card> cards){
-        
+        int[] rankCounts = new int[15];
+        int totalScore = 0;
+
+        for (Card c : cards){
+            rankCounts[c.getRankNum()]++;
+        }
+
+        for(int i = 2; i <= 14, i++){
+            if (rankCounts[i] == 4){
+                totalScore += 800; //four of a kind
+            } else if (rankCounts[i] == 3){ // three of a kind
+                totalScore += 400;
+            } else if(rankCounts[i] == 2){// a pair
+                totalScore += 200;
+            }
+
+            return totalScore;
+        }
     }
     
 }
