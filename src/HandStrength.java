@@ -88,7 +88,7 @@ public class HandStrength {
             rankCounts[c.getRankNum()]++;
         }
 
-        for(int i = 2; i <= 14, i++){
+        for(int i = 2; i <= 14; i++){
             if (rankCounts[i] == 4){
                 totalScore += 800; //four of a kind
             } else if (rankCounts[i] == 3){ // three of a kind
@@ -96,9 +96,9 @@ public class HandStrength {
             } else if(rankCounts[i] == 2){// a pair
                 totalScore += 200;
             }
-
-            return totalScore;
         }
+
+        return totalScore;
     }
     
 }
