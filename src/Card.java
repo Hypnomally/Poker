@@ -1,5 +1,4 @@
 
-import java.util.Random;
 
 class Card {
     private int rankNum;
@@ -26,4 +25,11 @@ class Card {
         return -1;
     }
 
+    public int getRankNum() {
+        return rankNum;
+    }
+    
+    public int getSuitNum() {
+        return suitNum;
+    }
 }

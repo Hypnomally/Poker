@@ -13,7 +13,7 @@ public class Player{
     }
 
     public void addCard(Card card){
-
+        hand.add(card);
     }
 
     public void bet(int amount){

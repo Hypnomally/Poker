@@ -16,13 +16,15 @@ public class GameState {
         this.stage = s;
     }
 
-    public void applyMove(String move, int raiseAmount){
+    public void applyMove(String move, int raiseAmount) {
         Player p = players.get(currentPlayer);
-        if (move.equals("Fold") || move.equals("fold")){
+        if (move.equals("Fold") || move.equals("fold")) {
             p.fold();
-        } else if (move.equals("Call") || move.equals("call")){
+        }
+        else if (move.equals("Call") || move.equals("call")) {
             p.bet(20);
-        } else if (move.equals("Raise") || move.equals("raise")){
+        }
+        else if (move.equals("Raise") || move.equals("raise")) {
             p.bet(raiseAmount);
         }
         nextPlayer();
@@ -30,10 +32,14 @@ public class GameState {
 
     public GameState CloneState() {
         ArrayList<Player> newPlayers = new ArrayList<>();
-        for (Player p : players){
+        for (Player p : players) {
             Player copy = new Player(p.getName(), p.getChips());
-            for (Card c: p.gethand()) { copy.gethand().add(c); }
-            if (p.isFolded) { copy.fold(); }
+            for (Card c: p.gethand()) {
+                copy.gethand().add(c);
+            }
+            if (p.isFolded) {
+                copy.fold();
+            }
             newPlayers.add(copy);
         }
         
