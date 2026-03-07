@@ -8,16 +8,39 @@ public class GameState {
     private int currentPlayer;
     private int stage; // 0 preflop, 1 flop, 2 turn, 3 river
     
-    public GameState(ArrayList<Player> p, Table t, Stack<Card> d, int currentPlayer, int stage) {
+    public GameState(ArrayList<Player> p, Table t, Stack<Card> d, int cp, int s) {
         this.players = p;
         this.table = t;
         this.deck = d;
-        this.currentPlayer = currentPlayer;
-        this.stage = stage;
+        this.currentPlayer = cp;
+        this.stage = s;
     }
 
-    public GameState clone() {
-        return new GameState(clonedUser, clonedBot, clonedTable, clonedDeck);
+    public void applyMove(String move, int raiseAmount){
+        Player p = players.get(currentPlayer);
+        if (move.equals("Fold") || move.equals("fold")){
+            p.fold();
+        } else if (move.equals("Call") || move.equals("call")){
+            p.bet(20);
+        } else if (move.equals("Raise") || move.equals("raise")){
+            p.bet(raiseAmount);
+        }
+        nextPlayer();
+    }
+
+    public GameState CloneState() {
+        ArrayList<Player> newPlayers = new ArrayList<>();
+        for (Player p : players){
+            Player copy = new Player(p.getName(), p.getChips());
+            for (Card c: p.gethand()) { copy.gethand().add(c); }
+            if (p.isFolded) { copy.fold(); }
+            newPlayers.add(copy);
+        }
+        
+        Stack<Card> newDeck = new Stack<>();
+        newDeck.addAll(this.deck);
+
+        return new GameState(newPlayers, table.cloneTable(), newDeck, currentPlayer, stage);
     }
     
     public ArrayList<Player> getPlayers() {
@@ -42,30 +65,5 @@ public class GameState {
     
     public void nextPlayer() {
         currentPlayer = (currentPlayer + 1) % players.size();
-    }
-
-    public GameState cloneState() {
-        ArrayList<Player> newPlayers = new ArrayList<>();
-        
-        for (Player p : players) {
-            Player copy = new Player(p.getName(), p.getChips());
-            
-            for (Card c : p.gethand()) {
-                copy.gethand().add(c);
-            }
-            
-            if (p.isFolded) {
-                copy.fold();
-            }
-            
-            newPlayers.add(copy);
-        }
-        
-        Stack<Card> newDeck = new Stack<>();
-        newDeck.addAll(this.deck);
-        
-        Table newTable = table; // simple reference for now
-        
-        return new GameState(newPlayers, newTable, newDeck, pot, currentPlayer, stage);
     }
 }

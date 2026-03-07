@@ -1,17 +1,36 @@
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 public class HandStrength {
+    public static final int WEIGHT_FLUSH = 600;
+    public static final int WEIGHT_STRAIGHT = 500;
+    public static final int WEIGHT_PAIR = 200;
 
-    public enum HandRank{
-        High_Card(1), Pair(2), Two_Pair(3), Three_of_a_kind(4), Straight(5), Flush(6), Full_House(7), Four_Of_A_Kind(8), Straight_Flush(9), Royal_Flush(10);
+    public int calculateTotalStrength(ArrayList<Card> hole, Card[] tableCards){
+        ArrayList<Card> all = new ArrayList<>(hole);
+        for (Card c : tableCards) if (c != null) all.add(c);
 
-        private final int value;
-        HandRank(int value) {this.value = value;}
-        public int getValue() {return value;}
+        int score = 0;
+
+        if (isFlush(all)) score += WEIGHT_FLUSH;
+        if (isStraight(all)) score += WEIGHT_STRAIGHT;
+        score += (countPairs(all) * WEIGHT_PAIR);
+
+        all.sort((a,b) -> b.getRankNum() - a.getRankNum());
+        if (!all.isEmpty()) score += all.get(0).getRankNum();
+
+        return score;
     }
 
-    
+    private boolean isFlush(ArrayList<Card> cards){
+
+    }
+
+    private boolean isStraight(ArrayList<Card> cards){
+        
+    }
+
+    private boolean countPairs(ArrayList<Card> cards){
+        
+    }
     
 }
