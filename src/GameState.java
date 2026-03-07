@@ -29,9 +29,6 @@ public class GameState {
         else if (move.equalsIgnoreCase("call")) {
             // Find out how much more this player needs to add to match the leader
             int amountNeeded = highestBetInRound - p.getCurrentBet();
-            
-            // If someone hasn't raised yet, a "Call" is just a minimum bet (e.g., matching the Big Blind)
-            if (amountNeeded <= 0) amountNeeded = 20; 
     
             p.bet(amountNeeded);
             this.pot += amountNeeded;

@@ -12,7 +12,7 @@ public class PokerBot {
 
     private String selectBestAction(PokerNode root) {
         String bestMove = "call";
-        int maxScore = -9999;
+        int maxScore = -1;
 
         for (PokerNode child : root.getChildren()) {
             if (child.getValue() > maxScore) {
@@ -21,7 +21,7 @@ public class PokerBot {
             }
         }
 
-        if (maxScore <= -10)
+        if (maxScore <= 8)
             return "fold";
 
         return bestMove;
@@ -46,10 +46,20 @@ public class PokerBot {
                     simulatedState.getPlayers().get(1).gethand(),
                     simulatedState.getTable().getTableCards());
 
-            int currentPot = simulatedState.getPot();
-            int myInvestment = simulatedState.getPlayers().get(1).getCurrentBet();
             
-            int finalScore = strength + (currentPot / 5) - (myInvestment);
+            int finalScore = 0;
+
+            if (move.equalsIgnoreCase("fold")) {
+                finalScore = 0; 
+            } else if (move.equalsIgnoreCase("call")) {
+                finalScore = strength; 
+            } else if (move.equalsIgnoreCase("raise")) {
+                if (strength >= 200) {
+                    finalScore = strength + 50; // Encourages raising with good hands
+                } else {
+                    finalScore = strength - 50; // Discourages raising with bad hands
+                }
+            }
 
             child.setValue(finalScore);
 

@@ -36,6 +36,10 @@ public class HandStrength {
             }
         }
         score += highCard;
+
+        if (tableCards[0] == null) {
+            if (highCard >= 10) score += 20;
+        }
         return score;
     }
 
