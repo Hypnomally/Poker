@@ -5,13 +5,13 @@ public class PokerBot {
         // Create root of our tree
         PokerNode root = new PokerNode(currentState);
 
-        buildTree(root, 2);
+        buildTree(root, 4);
 
         return selectBestAction(root);
     }
 
     private String selectBestAction(PokerNode root) {
-        String bestMove = "fold";
+        String bestMove = "call";
         int maxScore = -9999;
 
         for (PokerNode child : root.getChildren()) {
@@ -21,7 +21,7 @@ public class PokerBot {
             }
         }
 
-        if (maxScore < 7)
+        if (maxScore <= -10)
             return "fold";
 
         return bestMove;
@@ -42,13 +42,16 @@ public class PokerBot {
             PokerNode child = new PokerNode(simulatedState);
             child.setMoveApplied(move);
 
-            int score = evaluator.calculateTotalStrength(
+            int strength = evaluator.calculateTotalStrength(
                     simulatedState.getPlayers().get(1).gethand(),
                     simulatedState.getTable().getTableCards());
 
-            score += (simulatedState.getPot() / 10);
+            int currentPot = simulatedState.getPot();
+            int myInvestment = simulatedState.getPlayers().get(1).getCurrentBet();
+            
+            int finalScore = strength + (currentPot / 5) - (myInvestment);
 
-            child.setValue(score);
+            child.setValue(finalScore);
 
             node.addChild(child);
 
