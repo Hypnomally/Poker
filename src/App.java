@@ -1,4 +1,4 @@
-public class App {
+public class App { //main method holder
     public static void main(String[] args) {
         Table table = new Table();
         Deck test = new Deck();
