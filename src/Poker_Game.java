@@ -78,20 +78,22 @@ public class Poker_Game {
         }
 
         handleBetting("Pre-Flop", input, bot);
-        if (players.get(0).isFolded || players.get(1).isFolded) {
-            determineWinner();
-            return; // Stop the round here!
-        }
+        if (isGameOver())
+            return;
 
         // flop 1, 3 cards
         table.dealFlop(gameDeck);
         table.displayTable();
         handleBetting("Flop", input, bot);
+        if (isGameOver())
+            return;
 
         // first card turn
         table.dealTurn(gameDeck);
         table.displayTable();
         handleBetting("Turn", input, bot);
+        if (isGameOver())
+            return;
 
         // last card turn
         table.dealRiver(gameDeck);
@@ -108,15 +110,16 @@ public class Poker_Game {
         System.out.print("Your cards (fold/call/raise): ");
         String userMove = input.nextLine();
         state.applyMove(userMove, 50);
+        if (players.get(0).isFolded)
+            return;
         System.out.println("Total Pot: $" + state.getPot());
 
         // bot turn
-        if (!players.get(0).isFolded) {
-            System.out.println("Bot is thinking...");
-            String botAction = bot.getBestMove(state);
-            state.applyMove(botAction, 50);
-            System.out.println("Bot chose to: " + botAction);
-        }
+        System.out.println("Bot is thinking...");
+        String botAction = bot.getBestMove(state);
+        state.applyMove(botAction, 50);
+        System.out.println("Bot chose to: " + botAction);
+
     }
 
     private void determineWinner() {
@@ -153,6 +156,14 @@ public class Poker_Game {
             players.get(0).winPot(finalPot / 2);
             players.get(1).winPot(finalPot / 2);
         }
+    }
+
+    private boolean isGameOver() {
+        if (players.get(0).isFolded || players.get(1).isFolded) {
+            determineWinner();
+            return true;
+        }
+        return false;
     }
 
 }

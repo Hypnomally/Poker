@@ -34,8 +34,8 @@ public class GameState {
             if (amountNeeded <= 0) amountNeeded = 20; 
     
             p.bet(amountNeeded);
-            table.addPot(amountNeeded);
-            this.addPot(amountNeeded); // Keep GameState.pot in sync
+            this.pot += amountNeeded;
+            this.table.addPot(amountNeeded); // Keep GameState.pot in sync
         } 
         else if (move.equalsIgnoreCase("raise")) {
             // A raise is the cost to Call + the extra raise amount
@@ -46,7 +46,7 @@ public class GameState {
             table.addPot(totalBet);
             this.addPot(totalBet);
     
-            // Crucial: Update the new "price" for the next player
+            //Update the new "price" for the next player
             highestBetInRound = p.getCurrentBet();
         }
         nextPlayer();
