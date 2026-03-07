@@ -18,15 +18,15 @@ public class Poker_Game {
         this.state = new GameState(players, table, deck.getDeckStack(), 0, 0, 0);
     }
 
-    public void startTourney(){
+    public void startTourney() {
         Scanner input = new Scanner(System.in);
         boolean keepPlaying = true;
 
-        while (keepPlaying){
-            playRound();
+        while (keepPlaying) {
+            playRound(input);
 
-            //check money amount
-            if(players.get(0).getChips() < 0) {
+            // check money amount
+            if (players.get(0).getChips() <= 0) {
                 System.out.println("You are bankrupt! Game Over.");
                 break;
             } else if (players.get(1).getChips() <= 0) {
@@ -42,13 +42,14 @@ public class Poker_Game {
                 prepareNextRound();
             }
         }
+        input.close();
     }
 
-    private void prepareNextRound(){
+    private void prepareNextRound() {
         this.deck = new Deck();
-        this.deck.shuffle ();
+        this.deck.shuffle();
 
-        for (Player p: players) {
+        for (Player p : players) {
             p.clearHand();
         }
 
@@ -57,41 +58,86 @@ public class Poker_Game {
 
     }
 
-    public void playRound(){
-        Scanner input = new Scanner(System.in);
+    public void playRound(Scanner input) {
         PokerBot bot = new PokerBot();
         deck.shuffle();
         Stack<Card> gameDeck = deck.getDeckStack();
 
-        //Deal 2 cards to all of the players
-        for(Player p: players){
+        System.out.println("Blinds");
+        players.get(0).payBlind(10); // User Small Blind
+        players.get(1).payBlind(20); // Bot Big Blind
+
+        table.addPot(30); // Add the $30 to the table pot
+        // Also update the state's internal pot
+        state.addPot(30);
+
+        // Deal 2 cards to all of the players
+        for (Player p : players) {
             p.addCard(gameDeck.pop());
             p.addCard(gameDeck.pop());
         }
 
-        //Preliminary bets
+        handleBetting("Pre-Flop", input, bot);
+
+        // flop 1, 3 cards
+        table.dealFlop(gameDeck);
+        table.displayTable();
+        handleBetting("Flop", input, bot);
+
+        // first card turn
+        table.dealTurn(gameDeck);
+        table.displayTable();
+        handleBetting("Turn", input, bot);
+
+        // last card turn
+        table.dealRiver(gameDeck);
+        table.displayTable();
+        handleBetting("River", input, bot);
+
+        determineWinner();
+
+    }
+
+    private void handleBetting(String phaseName, Scanner input, PokerBot bot) {
+        // user turn
         System.out.println("Your cards: " + players.get(0).gethand());
-        System.out.println("Your cards (fold/call/raise): ");
+        System.out.print("Your cards (fold/call/raise): ");
         String userMove = input.nextLine();
         state.applyMove(userMove, 50);
 
-        //Bot's turn
-        System.out.println("Bot is thinking...");
-        String botAction = bot.getBestMove(state);
-        state.applyMove(botAction, 50);
-        System.out.println("Bot chose to: " + botAction);
+        // bot turn
+        if (!players.get(0).isFolded) {
+            System.out.println("Bot is thinking...");
+            String botAction = bot.getBestMove(state);
+            state.applyMove(botAction, 50);
+            System.out.println("Bot chose to: " + botAction);
+        }
+    }
 
-        //Deal flop and display
-        table.dealFlop(gameDeck);
-        table.displayTable();
+    private void determineWinner() {
 
-        //
-        int userScore = new HandStrength().calculateTotalStrength(players.get(0).gethand(), table.getTableCards());
-        int botScore = new HandStrength().calculateTotalStrength(players.get(1).gethand(), table.getTableCards());
+        if (players.get(0).isFolded) {
+            System.out.println("You folded. Bot wins the pot!");
+            players.get(1).winPot(table.getPot());
+            return;
+        }
+
+        if (players.get(1).isFolded) {
+            System.out.println("Bot folded. You win the pot!");
+            players.get(0).winPot(table.getPot());
+            return;
+        }
+
+        HandStrength hs = new HandStrength();
+        int userScore = hs.calculateTotalStrength(players.get(0).gethand(), table.getTableCards());
+        int botScore = hs.calculateTotalStrength(players.get(1).gethand(), table.getTableCards());
 
         int finalPot = table.getPot();
 
-        if (userScore > botScore){
+        System.out.println("You have " + hs.getHandName(userScore));
+        System.out.println("Bot has " + hs.getHandName(botScore));
+
+        if (userScore > botScore) {
             System.out.println("You win the pot of $" + finalPot);
             players.get(0).winPot(finalPot);
         } else if (botScore > userScore) {
@@ -99,8 +145,8 @@ public class Poker_Game {
             players.get(1).winPot(finalPot);
         } else {
             System.out.println("It's a tie! Pot is split.");
-            players.get(0).winPot(finalPot/2);
-            players.get(1).winPot(finalPot/2);
+            players.get(0).winPot(finalPot / 2);
+            players.get(1).winPot(finalPot / 2);
         }
     }
 

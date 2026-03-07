@@ -1,25 +1,23 @@
-public class App { //main method holder
+import java.util.ArrayList;
+
+public class App {
     public static void main(String[] args) {
-        Table table = new Table();
-        Deck test = new Deck();
-        test.shuffle();
-        System.out.println(test.deck);
+        // 1. Initialize Players
+        Player user = new Player("You", 1000);
+        Player botPlayer = new Player("PokerBot", 1000);
+
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(user);
+        players.add(botPlayer);
+
+        // 2. Initialize the Game Engine
+        Poker_Game game = new Poker_Game(user, players);
+
+        // 3. Start the Game
+        System.out.println("Welcome to the Java Poker Tournament!");
+        System.out.println("Starting Chips: $1000 each.");
+        System.out.println("------------------------------------");
         
+        game.startTourney();
     }
-
-    /*public static void main(String[] args) {
-        generateDeck();
-        dealCards();
-    }
-
-    public static void main(String[] args) {
-        Player player1 = new Player("Alice", 1000);
-        Player player2 = new Player("Bob", 1000);
-        Deck deck = new Deck();
-        Card card1 = new Card(deck);
-        Card card2 = new Card(deck);
-        player1.hand[0] = card1;
-        player1.hand[1] = card2;
-        System.out.println(player1.name + " has " + player1.chips + " chips and is dealt: " + card1.rank + " of suit " + card1.suit + " and " + card2.rank + " of suit " + card2.suit);
-    }*/
 }
