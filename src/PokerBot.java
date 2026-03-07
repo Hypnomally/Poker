@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class PokerBot {
     private HandStrength evaluator = new HandStrength();
 

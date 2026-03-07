@@ -9,6 +9,7 @@ public class GameState {
     private int currentPlayer; // 1 player 1, 2 player 2, etc.
     private int stage; // 0 preflop, 1 flop, 2 turn, 3 river
     private int pot;
+    private int highestBetInRound = 0;
 
     public GameState(ArrayList<Player> p, Table t, Stack<Card> d, int cp, int s, int pt) { // game state constructor
         this.players = p;
@@ -19,17 +20,34 @@ public class GameState {
         this.pot = pt;
     }
 
-    public void applyMove(String move, int raiseAmount) { // apply's different moves
+    public void applyMove(String move, int raiseAmount) {
         Player p = players.get(currentPlayer);
-        if (move.equalsIgnoreCase("Fold")) {
+        
+        if (move.equalsIgnoreCase("fold")) {
             p.fold();
-        } else if (move.equalsIgnoreCase("Call")) {
-            int callAmount = 20;
-            p.bet(callAmount);
-            table.addPot(callAmount);
-        } else if (move.equalsIgnoreCase("Raise")) {
-            p.bet(raiseAmount);
-            table.addPot(raiseAmount);
+        } 
+        else if (move.equalsIgnoreCase("call")) {
+            // Find out how much more this player needs to add to match the leader
+            int amountNeeded = highestBetInRound - p.getCurrentBet();
+            
+            // If someone hasn't raised yet, a "Call" is just a minimum bet (e.g., matching the Big Blind)
+            if (amountNeeded <= 0) amountNeeded = 20; 
+    
+            p.bet(amountNeeded);
+            table.addPot(amountNeeded);
+            this.addPot(amountNeeded); // Keep GameState.pot in sync
+        } 
+        else if (move.equalsIgnoreCase("raise")) {
+            // A raise is the cost to Call + the extra raise amount
+            int callAmount = highestBetInRound - p.getCurrentBet();
+            int totalBet = callAmount + raiseAmount;
+    
+            p.bet(totalBet);
+            table.addPot(totalBet);
+            this.addPot(totalBet);
+    
+            // Crucial: Update the new "price" for the next player
+            highestBetInRound = p.getCurrentBet();
         }
         nextPlayer();
     }

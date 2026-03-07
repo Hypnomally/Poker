@@ -29,6 +29,10 @@ public class Player {
         this.isFolded = true;
     }
 
+    public int getCurrentBet() {
+        return currentBet;
+    }
+
     public void payBlind(int amount) {
         this.chips -= amount;
         this.currentBet += amount;
