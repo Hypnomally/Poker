@@ -6,19 +6,19 @@ class Table {
     private int pot = 0;
     private int currentStage = 0; // ): pre-flop, 1: flop, 2: Turn, 3: River
 
-    public Table(Card[] cards, int pot, int stage){
+    public Table(Card[] cards, int pot, int stage){ //table constructor for creating a clone
         this.tableCards = cards.clone();
         this.pot = pot;
         this.currentStage = stage;
     }
 
-    public Table() {}
+    public Table() {} //table constructor for start of game
 
     public Card[] getTableCards() {return tableCards;}
     public int getPot() {return pot;}
     public void addPot(int amount) {this.pot += amount; }
 
-    public Table cloneTable(){
+    public Table cloneTable(){ //actually cloning the table
         return new Table(this.tableCards, this.pot, this.currentStage);
     }
 
@@ -42,7 +42,7 @@ class Table {
         currentStage = 3;
     }
 
-    public void displayTable(){
+    public void displayTable(){ // prints table
         System.out.print("Table: ");
         for (Card c: tableCards){
             if (c != null) System.out.print( c+ " ");

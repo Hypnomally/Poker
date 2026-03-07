@@ -2,13 +2,14 @@ import java.util.ArrayList;
 import java.util.Stack;
     
 public class GameState {
+    // parts of the gamestate
     private ArrayList<Player> players;
     private Table table;
     private Stack<Card> deck;
-    private int currentPlayer;
+    private int currentPlayer; //1 player 1, 2 player 2, etc.
     private int stage; // 0 preflop, 1 flop, 2 turn, 3 river
     
-    public GameState(ArrayList<Player> p, Table t, Stack<Card> d, int cp, int s) {
+    public GameState(ArrayList<Player> p, Table t, Stack<Card> d, int cp, int s) { //game state constructor
         this.players = p;
         this.table = t;
         this.deck = d;
@@ -16,7 +17,7 @@ public class GameState {
         this.stage = s;
     }
 
-    public void applyMove(String move, int raiseAmount) {
+    public void applyMove(String move, int raiseAmount){
         Player p = players.get(currentPlayer);
         if (move.equals("Fold") || move.equals("fold")) {
             p.fold();
@@ -32,7 +33,7 @@ public class GameState {
 
     public GameState CloneState() {
         ArrayList<Player> newPlayers = new ArrayList<>();
-        for (Player p : players) {
+        for (Player p : players){
             Player copy = new Player(p.getName(), p.getChips());
             for (Card c: p.gethand()) {
                 copy.gethand().add(c);
@@ -43,10 +44,11 @@ public class GameState {
             newPlayers.add(copy);
         }
         
-        Stack<Card> newDeck = new Stack<>();
+        Stack<Card> newDeck = new Stack<>(); //creating a new clone deck
         newDeck.addAll(this.deck);
 
         return new GameState(newPlayers, table.cloneTable(), newDeck, currentPlayer, stage);
+        //returns cloned gamestate with cloned elements
     }
     
     public ArrayList<Player> getPlayers() {
