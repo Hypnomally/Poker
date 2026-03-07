@@ -5,17 +5,19 @@ public class GameState {
     private ArrayList<Player> players;
     private Table table;
     private Stack<Card> deck;
-    private int pot;
     private int currentPlayer;
     private int stage; // 0 preflop, 1 flop, 2 turn, 3 river
     
-    public GameState(ArrayList<Player> players, Table table, Stack<Card> deck, int pot, int currentPlayer, int stage) {
-        this.players = players;
-        this.table = table;
-        this.deck = deck;
-        this.pot = pot;
+    public GameState(ArrayList<Player> p, Table t, Stack<Card> d, int currentPlayer, int stage) {
+        this.players = p;
+        this.table = t;
+        this.deck = d;
         this.currentPlayer = currentPlayer;
         this.stage = stage;
+    }
+
+    public GameState clone() {
+        return new GameState(clonedUser, clonedBot, clonedTable, clonedDeck);
     }
     
     public ArrayList<Player> getPlayers() {
@@ -30,20 +32,12 @@ public class GameState {
         return deck;
     }
     
-    public int getPot() {
-        return pot;
-    }
-    
     public int getCurrentPlayer() {
         return currentPlayer;
     }
     
     public int getStage() {
         return stage;
-    }
-    
-    public void setPot(int pot) {
-        this.pot = pot;
     }
     
     public void nextPlayer() {
@@ -68,7 +62,7 @@ public class GameState {
         }
         
         Stack<Card> newDeck = new Stack<>();
-        newDeck.addAll(deck);
+        newDeck.addAll(this.deck);
         
         Table newTable = table; // simple reference for now
         

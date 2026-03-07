@@ -6,6 +6,22 @@ class Table {
     private int pot = 0;
     private int currentStage = 0; // ): pre-flop, 1: flop, 2: Turn, 3: River
 
+    public Table(Card[] cards, int pot, int stage){
+        this.tableCards = cards.clone();
+        this.pot = pot;
+        this.currentStage = stage;
+    }
+
+    public Table() {}
+
+    public Card[] getTableCards() {return tableCards;}
+    public int getPot() {return pot;}
+    public void addPot(int amount) {this.pot += amount; }
+
+    public Table cloneTable(){
+        return new Table(this.tableCards, this.pot, this.currentStage);
+    }
+
     public void dealFlop(Stack<Card> deck){
         deck.pop(); // Burn
         for (int i = 0; i < 3; i++){ // the original flop of the first 3 cards
