@@ -21,7 +21,7 @@ public class PokerBot {
             }
         }
 
-        if (maxScore < 15)
+        if (maxScore < 7)
             return "fold";
 
         return bestMove;
@@ -45,6 +45,8 @@ public class PokerBot {
             int score = evaluator.calculateTotalStrength(
                     simulatedState.getPlayers().get(1).gethand(),
                     simulatedState.getTable().getTableCards());
+
+            score += (simulatedState.getPot() / 10);
 
             child.setValue(score);
 
